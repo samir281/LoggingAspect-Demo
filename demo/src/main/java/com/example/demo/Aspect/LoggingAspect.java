@@ -12,15 +12,16 @@ import org.springframework.stereotype.Component;
 @Component
 public class LoggingAspect {
 
-	@Pointcut("execution(public * com.example.demo.*.*(..))")
-	private void publicMethodsFromLoggingPackage() {
-	}
+    @Pointcut("execution(* com.example.demo.*.*.*(..))")
+    private void springBeanPointcut() {
+    }
 
-    @Around("publicMethodsFromLoggingPackage")
+    @Around("springBeanPointcut()")
     public Object logInputOutput(ProceedingJoinPoint jointPoint) throws Throwable {
-        log.info("Method Starts...{}",jointPoint.getSignature());
-        Object processed=jointPoint.proceed();
-        log.info("Method ends...{}",jointPoint.getSignature());
+        log.debug("Aspect applied to method: {}", jointPoint.getSignature());
+        log.info("Method Starts...{}", jointPoint.getSignature());
+        Object processed = jointPoint.proceed();
+        log.info("Method ends...{}", jointPoint.getSignature());
         return processed;
     }
 
